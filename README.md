@@ -1,4 +1,4 @@
-# ✒️ PixelPen — Generador de Contenido con IA
+# ✒️ MultiversoApp — Generador de Contenido con IA
 
 > Convierte cualquier idea en contenido listo para publicar en segundos, impulsado por **Gemini AI** y **LangChain**.
 
@@ -9,9 +9,9 @@
 
 ---
 
-## 🧠 ¿Qué es PixelPen?
+## 🧠 ¿Qué es MultiversoApp?
 
-PixelPen es una prueba de concepto (PoC) de generación automática de contenido creada para **Digital Content**. A partir de un tema y una audiencia objetivo, genera contenido listo para publicar adaptado al estilo y formato de cuatro plataformas:
+MultiversoApp es una prueba de concepto (PoC) de generación automática de contenido creada para **Digital Content**. A partir de un tema y una audiencia objetivo, genera contenido listo para publicar adaptado al estilo y formato de cuatro plataformas:
 
 | Plataforma | Estilo de salida |
 |---|---|
@@ -25,7 +25,7 @@ PixelPen es una prueba de concepto (PoC) de generación automática de contenido
 ## 🗂️ Estructura del proyecto
 
 ```
-pixelpen/
+multiverso_app/
 ├── app.py            # Interfaz web con Streamlit
 ├── generator.py      # Lógica LangChain + Gemini y plantillas de prompts
 ├── requirements.txt  # Dependencias Python
@@ -69,8 +69,13 @@ GEMINI_API_KEY=tu_clave_aqui
 
 ### 5. Ejecutar la aplicación
 ```bash
-venv/Scripts/streamlit run app.py   # Windows
-venv/bin/streamlit run app.py       # macOS/Linux
+# Activa el entorno virtual primero:
+source venv/Scripts/activate   # Windows (Git Bash)
+venv\Scripts\activate          # Windows (CMD/PowerShell)
+source venv/bin/activate       # macOS/Linux
+
+# Luego ejecuta:
+streamlit run app.py
 ```
 
 La app se abrirá automáticamente en `http://localhost:8501`
@@ -116,7 +121,7 @@ Entrada del usuario ──► PromptTemplate ──► Gemini 1.5 Flash ──�
 
 - [x] Generación de contenido de texto para múltiples plataformas y audiencias
 - [x] Prompt Engineering con plantillas específicas por plataforma
-- [x] Interfaz web (Streamlit)
+- [x] Interfaz web (Streamlit) en español
 - [x] Código documentado
 - [x] README en GitHub
 - [x] Repositorio Git con ramas organizadas y commits descriptivos
