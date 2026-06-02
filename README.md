@@ -1,118 +1,129 @@
-# ✒️ PixelPen — AI Content Generator
+# ✒️ PixelPen — Generador de Contenido con IA
 
-> Turn any idea into platform-ready content in seconds, powered by **Gemini AI** and **LangChain**.
+> Convierte cualquier idea en contenido listo para publicar en segundos, impulsado por **Gemini AI** y **LangChain**.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.35-red?logo=streamlit)
-![LangChain](https://img.shields.io/badge/LangChain-0.2-green)
+![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.58-red?logo=streamlit)
+![LangChain](https://img.shields.io/badge/LangChain-1.3-green)
 ![Gemini](https://img.shields.io/badge/Gemini-1.5_Flash-orange?logo=google)
 
 ---
 
-## 🧠 What is PixelPen?
+## 🧠 ¿Qué es PixelPen?
 
-PixelPen is a proof-of-concept content generation system built for **Digital Content**. Given a topic and a target audience, it automatically generates publication-ready content tailored to the style and format of four major platforms:
+PixelPen es una prueba de concepto (PoC) de generación automática de contenido creada para **Digital Content**. A partir de un tema y una audiencia objetivo, genera contenido listo para publicar adaptado al estilo y formato de cuatro plataformas:
 
-| Platform | Output style |
+| Plataforma | Estilo de salida |
 |---|---|
-| 📝 Blog | Full post with title, sections and conclusion |
-| 🐦 Twitter/X | Thread of 5 tweets (≤ 280 chars each) |
-| 📸 Instagram | Caption with hook, body, CTA and hashtags |
-| 💼 LinkedIn | Professional post with opening hook and engagement question |
+| 📝 Blog | Post completo con título, secciones y conclusión |
+| 🐦 Twitter/X | Hilo de 5 tweets (≤ 280 caracteres cada uno) |
+| 📸 Instagram | Caption con gancho, cuerpo, CTA y hashtags |
+| 💼 LinkedIn | Post profesional con apertura impactante y pregunta de engagement |
 
 ---
 
-## 🗂️ Project Structure
+## 🗂️ Estructura del proyecto
 
 ```
 pixelpen/
-├── app.py            # Streamlit web interface
-├── generator.py      # LangChain + Gemini logic & prompt templates
-├── requirements.txt  # Python dependencies
-├── .env.example      # Environment variables template
+├── app.py            # Interfaz web con Streamlit
+├── generator.py      # Lógica LangChain + Gemini y plantillas de prompts
+├── requirements.txt  # Dependencias Python
+├── .env.example      # Plantilla de variables de entorno
 ├── .gitignore
 └── README.md
 ```
 
 ---
 
-## ⚙️ Setup & Run
+## ⚙️ Instalación y ejecución
 
-### 1. Clone the repository
+### 1. Clonar el repositorio
 ```bash
-git clone https://github.com/your-username/pixelpen.git
-cd pixelpen
+git clone https://github.com/Pal-cloud/multiverso_app.git
+cd multiverso_app
 ```
 
-### 2. Create a virtual environment
+### 2. Crear un entorno virtual con Python 3.13
 ```bash
-python -m venv venv
+py -3.13 -m venv venv
 source venv/bin/activate      # macOS/Linux
 venv\Scripts\activate         # Windows
 ```
 
-### 3. Install dependencies
+### 3. Instalar dependencias
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure your API key
+### 4. Configurar la API key
 
-Copy `.env.example` to `.env` and add your Gemini API key:
+Copia `.env.example` a `.env` y añade tu clave de Gemini:
 ```bash
 cp .env.example .env
 ```
 ```env
-GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_API_KEY=tu_clave_aqui
 ```
-> Get a free API key at [Google AI Studio](https://aistudio.google.com/app/apikey)
+> Obtén una clave gratuita en [Google AI Studio](https://aistudio.google.com/app/apikey)
 
-### 5. Run the app
+### 5. Ejecutar la aplicación
 ```bash
-streamlit run app.py
+venv/Scripts/streamlit run app.py   # Windows
+venv/bin/streamlit run app.py       # macOS/Linux
 ```
 
-The app will open automatically at `http://localhost:8501`
+La app se abrirá automáticamente en `http://localhost:8501`
 
 ---
 
-## 🔧 How it works
+## 🔧 ¿Cómo funciona?
 
-1. The user selects a **platform**, enters a **topic** and a **target audience**.
-2. `generator.py` builds a prompt using a **LangChain `PromptTemplate`**, injecting platform-specific instructions (tone, format, length).
-3. The prompt is sent to **Gemini 1.5 Flash** via `langchain-google-genai`.
-4. The generated content is displayed in the UI and can be downloaded as a `.txt` file.
+1. El usuario selecciona una **plataforma**, escribe un **tema** y define la **audiencia objetivo**.
+2. `generator.py` construye un prompt usando un **`PromptTemplate` de LangChain**, inyectando instrucciones específicas de cada plataforma (tono, formato, longitud).
+3. El prompt se envía a **Gemini 1.5 Flash** a través de `langchain-google-genai`.
+4. El contenido generado se muestra en pantalla y se puede descargar como `.txt`.
 
 ```
-User Input ──► PromptTemplate ──► Gemini 1.5 Flash ──► Ready-to-publish content
+Entrada del usuario ──► PromptTemplate ──► Gemini 1.5 Flash ──► Contenido listo para publicar
 ```
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Stack tecnológico
 
-| Layer | Technology |
+| Capa | Tecnología |
 |---|---|
-| Language | Python 3.10+ |
-| LLM Framework | LangChain |
-| LLM Model | Google Gemini 1.5 Flash (free tier) |
+| Lenguaje | Python 3.13 |
+| Framework LLM | LangChain (LCEL) |
+| Modelo LLM | Google Gemini 1.5 Flash (tier gratuito) |
 | Frontend | Streamlit |
-| Config | python-dotenv |
+| Configuración | python-dotenv |
 
 ---
 
-## 📋 Delivery Checklist (Nivel Esencial)
+## 🌿 Ramas del repositorio
 
-- [x] Text content generation for multiple platforms and audiences
-- [x] Prompt Engineering with platform-specific templates
-- [x] Web interface (Streamlit)
-- [x] Documented code
-- [x] README
-- [ ] Git repository with clean branches and commits
-- [ ] Medium article
+| Rama | Propósito |
+|---|---|
+| `main` | Código estable y revisado |
+| `develop` | Integración de nuevas funcionalidades |
+| `streamlit` | Desarrollo de la interfaz web y corrección de dependencias |
 
 ---
 
-## 📄 License
+## 📋 Checklist de entrega (Nivel Esencial)
+
+- [x] Generación de contenido de texto para múltiples plataformas y audiencias
+- [x] Prompt Engineering con plantillas específicas por plataforma
+- [x] Interfaz web (Streamlit)
+- [x] Código documentado
+- [x] README en GitHub
+- [x] Repositorio Git con ramas organizadas y commits descriptivos
+- [ ] Artículo en Medium
+
+---
+
+## 📄 Licencia
 
 MIT
