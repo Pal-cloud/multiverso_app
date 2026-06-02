@@ -1,6 +1,6 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
+from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 import os
 
@@ -65,8 +65,8 @@ def get_llm():
 def generate_content(platform: str, topic: str, audience: str) -> str:
     config = PLATFORM_CONFIG[platform]
     llm = get_llm()
-    chain = LLMChain(llm=llm, prompt=PROMPT_TEMPLATE)
-    result = chain.invoke(
+    chain = PROMPT_TEMPLATE | llm | StrOutputParser()
+    return chain.invoke(
         {
             "platform": platform,
             "topic": topic,
@@ -76,4 +76,4 @@ def generate_content(platform: str, topic: str, audience: str) -> str:
             "length": config["length"],
         }
     )
-    return result["text"]
+    return result
