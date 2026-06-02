@@ -62,6 +62,7 @@ def get_llm():
     )
 
 
+
 def generate_content(platform: str, topic: str, audience: str) -> str:
     config = PLATFORM_CONFIG[platform]
     llm = get_llm()
@@ -76,4 +77,3 @@ def generate_content(platform: str, topic: str, audience: str) -> str:
             "length": config["length"],
         }
     )
-    return result
