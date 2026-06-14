@@ -1,4 +1,4 @@
-# ✒️ MultiversoApp — Generador de Contenido con IA
+# 🌐 MultiversoApp — Generador de Contenido con IA
 
 > Convierte cualquier idea en contenido listo para publicar en segundos, impulsado por **Gemini AI** y **LangChain**.
 
@@ -129,6 +129,3 @@ Entrada del usuario ──► PromptTemplate ──► Gemini 1.5 Flash ──�
 
 ---
 
-## 📄 Licencia
-
-MIT

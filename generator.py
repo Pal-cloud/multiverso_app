@@ -57,6 +57,7 @@ def get_llm():
         raise ValueError("GEMINI_API_KEY not found. Please check your .env file.")
     return ChatGoogleGenerativeAI(
         model="gemini-1.5-flash-latest",
+        model_name="gemini-1.5-flash",
         google_api_key=api_key,
         temperature=0.7,
     )
