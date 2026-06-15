@@ -193,9 +193,3 @@ Formulario -> content_generator.py -> PromptTemplate -> Groq API -> Contenido li
 - [x] Repositorio Git con ramas organizadas y commits descriptivos
 - [ ] Articulo en Medium
 
----
-
-## Licencia
-
-MIT
-
