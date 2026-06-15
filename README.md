@@ -1,118 +1,195 @@
-# ✒️ PixelPen — AI Content Generator
+# MultiversoApp — Generador de Contenido con IA
 
-> Turn any idea into platform-ready content in seconds, powered by **Gemini AI** and **LangChain**.
+> Convierte cualquier idea en contenido listo para publicar en cualquier plataforma e idioma, impulsado por **Groq** y **LangChain**.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.35-red?logo=streamlit)
-![LangChain](https://img.shields.io/badge/LangChain-0.2-green)
-![Gemini](https://img.shields.io/badge/Gemini-1.5_Flash-orange?logo=google)
+![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.58-red?logo=streamlit)
+![LangChain](https://img.shields.io/badge/LangChain-0.3-green)
+![Groq](https://img.shields.io/badge/Groq-LLaMA_3.3-orange)
+![License](https://img.shields.io/badge/Licencia-MIT-lightgrey)
 
 ---
 
-## 🧠 What is PixelPen?
+## Que es MultiversoApp
 
-PixelPen is a proof-of-concept content generation system built for **Digital Content**. Given a topic and a target audience, it automatically generates publication-ready content tailored to the style and format of four major platforms:
+MultiversoApp es una prueba de concepto (PoC) de generación automática de contenido creada para **Digital Content**. A partir de un tema, audiencia, tono e idioma, genera contenido listo para publicar adaptado al estilo y formato de cuatro plataformas:
 
-| Platform | Output style |
+| Plataforma | Estilo de salida |
 |---|---|
-| 📝 Blog | Full post with title, sections and conclusion |
-| 🐦 Twitter/X | Thread of 5 tweets (≤ 280 chars each) |
-| 📸 Instagram | Caption with hook, body, CTA and hashtags |
-| 💼 LinkedIn | Professional post with opening hook and engagement question |
+| Blog | Post completo con título, secciones y conclusión (600-900 palabras) |
+| Twitter/X | Hilo de 5 tweets numerados (menos de 280 caracteres cada uno) |
+| Instagram | Caption con gancho, cuerpo, CTA y 10 hashtags |
+| LinkedIn | Post profesional con apertura impactante y pregunta de engagement |
 
 ---
 
-## 🗂️ Project Structure
+## Funcionalidades
+
+- Selector de modelo: Llama 3.3 70B, Llama 3.1 8B o Gemma 2 9B (todos gratuitos via Groq)
+- Multiidioma: Español, English, Français, Italiano
+- Tono personalizable: sugerido automáticamente por plataforma y editable
+- Descarga del contenido generado en .txt
+- Arquitectura modular con separación de responsabilidades en src/
+
+---
+
+## Estructura del proyecto
 
 ```
-pixelpen/
-├── app.py            # Streamlit web interface
-├── generator.py      # LangChain + Gemini logic & prompt templates
-├── requirements.txt  # Python dependencies
-├── .env.example      # Environment variables template
+multiverso_app/
+├── app.py                          # Interfaz web con Streamlit
+├── src/
+│   ├── __init__.py
+│   ├── config.py                   # Modelos disponibles y configuracion de plataformas
+│   ├── prompts/
+│   │   ├── __init__.py
+│   │   └── content_prompt.py       # PromptTemplate de LangChain
+│   └── generators/
+│       ├── __init__.py
+│       └── content_generator.py    # Cadena LCEL: prompt | LLM | parser
+├── requirements.txt
+├── .env.example
 ├── .gitignore
 └── README.md
 ```
 
 ---
 
-## ⚙️ Setup & Run
+## Instalacion y ejecucion
 
-### 1. Clone the repository
+### 1. Clonar el repositorio
+
+Descarga el proyecto en tu máquina local:
+
 ```bash
-git clone https://github.com/your-username/pixelpen.git
-cd pixelpen
+git clone https://github.com/Pal-cloud/multiverso_app.git
+cd multiverso_app
 ```
 
-### 2. Create a virtual environment
+### 2. Crear el entorno virtual con Python 3.13
+
+Es obligatorio usar Python 3.13. Crea un entorno virtual aislado para que
+las dependencias no interfieran con otros proyectos:
+
 ```bash
-python -m venv venv
-source venv/bin/activate      # macOS/Linux
-venv\Scripts\activate         # Windows
+py -3.13 -m venv venv
 ```
 
-### 3. Install dependencies
+Esto genera una carpeta `venv/` en el directorio del proyecto con su propio
+intérprete de Python.
+
+### 3. Activar el entorno virtual
+
+Activa el entorno antes de instalar nada ni ejecutar la app.
+Si no lo activas, Python usará los paquetes del sistema y la app fallará:
+
+```bash
+source venv/Scripts/activate   # Windows (Git Bash)  <-- recomendado
+venv\Scripts\activate          # Windows (CMD / PowerShell)
+source venv/bin/activate       # macOS / Linux
+```
+
+Sabrás que está activo porque el prompt del terminal mostrará `(venv)` al inicio.
+
+### 4. Instalar dependencias
+
+Con el entorno virtual activo, instala todas las librerías necesarias:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure your API key
+Esto instalará: Streamlit, LangChain, langchain-groq y python-dotenv.
+La instalación puede tardar 1-2 minutos la primera vez.
 
-Copy `.env.example` to `.env` and add your Gemini API key:
+### 5. Configurar la API key de Groq
+
+La app necesita una clave de Groq para acceder a los modelos LLM.
+Es gratuita y se obtiene en menos de un minuto:
+
+1. Ve a https://console.groq.com/keys
+2. Crea una cuenta o inicia sesión
+3. Pulsa "Create API Key" y copia la clave (empieza por `gsk_`)
+4. Crea el archivo `.env` en la raíz del proyecto:
+
 ```bash
 cp .env.example .env
 ```
+
+5. Abre el `.env` y sustituye el valor:
+
 ```env
-GEMINI_API_KEY=your_gemini_api_key_here
+GROQ_API_KEY=gsk_tu_clave_aqui
 ```
-> Get a free API key at [Google AI Studio](https://aistudio.google.com/app/apikey)
 
-### 5. Run the app
+El archivo `.env` está en `.gitignore`: nunca se sube a GitHub.
+
+### 6. Ejecutar la aplicacion
+
+Importante: usa siempre el ejecutable de Python del venv, no el del sistema,
+para evitar conflictos con otros proyectos Streamlit que puedan estar corriendo:
+
 ```bash
-streamlit run app.py
+venv/Scripts/python.exe -m streamlit run app.py --server.port 8503
 ```
 
-The app will open automatically at `http://localhost:8501`
+La app se abrirá automáticamente en el navegador en:
+
+```
+http://localhost:8503
+```
+
+Si el puerto 8503 estuviese ocupado, cambia el número por cualquier otro libre
+(8504, 8505, etc.).
 
 ---
 
-## 🔧 How it works
+## Como funciona
 
-1. The user selects a **platform**, enters a **topic** and a **target audience**.
-2. `generator.py` builds a prompt using a **LangChain `PromptTemplate`**, injecting platform-specific instructions (tone, format, length).
-3. The prompt is sent to **Gemini 1.5 Flash** via `langchain-google-genai`.
-4. The generated content is displayed in the UI and can be downloaded as a `.txt` file.
+1. El usuario rellena el formulario: plataforma, modelo, audiencia, idioma, tono y tema.
+2. `app.py` llama a `generar_contenido()` en `src/generators/content_generator.py`.
+3. El generador construye la cadena LCEL: `PromptTemplate | ChatGroq | StrOutputParser`.
+4. El prompt se envia al modelo Groq elegido con todas las variables inyectadas.
+5. El contenido generado se muestra en pantalla y se puede descargar como `.txt`.
 
 ```
-User Input ──► PromptTemplate ──► Gemini 1.5 Flash ──► Ready-to-publish content
+Formulario -> content_generator.py -> PromptTemplate -> Groq API -> Contenido listo
 ```
 
 ---
 
-## 🛠️ Tech Stack
+## Stack tecnologico
 
-| Layer | Technology |
+| Capa | Tecnologia |
 |---|---|
-| Language | Python 3.10+ |
-| LLM Framework | LangChain |
-| LLM Model | Google Gemini 1.5 Flash (free tier) |
-| Frontend | Streamlit |
-| Config | python-dotenv |
+| Lenguaje | Python 3.13 |
+| Framework LLM | LangChain 0.3 (LCEL) |
+| Modelos LLM | Llama 3.3 70B / Llama 3.1 8B / Gemma 2 9B (Groq, tier gratuito) |
+| Frontend | Streamlit 1.58 |
+| Configuracion | python-dotenv |
 
 ---
 
-## 📋 Delivery Checklist (Nivel Esencial)
+## Ramas del repositorio
 
-- [x] Text content generation for multiple platforms and audiences
-- [x] Prompt Engineering with platform-specific templates
-- [x] Web interface (Streamlit)
-- [x] Documented code
-- [x] README
-- [ ] Git repository with clean branches and commits
-- [ ] Medium article
+| Rama | Proposito |
+|---|---|
+| `main` | Codigo estable y revisado |
+| `develop` | Integracion de nuevas funcionalidades |
+| `feature/streamlit` | Desarrollo de la interfaz web y correccion de dependencias |
 
 ---
 
-## 📄 License
+## Checklist de entrega (Nivel Esencial)
 
-MIT
+- [x] Generacion de contenido de texto para multiples plataformas y audiencias
+- [x] Prompt Engineering con plantillas especificas por plataforma
+- [x] Selector de modelo de IA (3 modelos disponibles)
+- [x] Generacion en varios idiomas (ES, EN, FR, IT)
+- [x] Tono personalizable por el usuario
+- [x] Interfaz web (Streamlit) en español
+- [x] Codigo documentado y arquitectura modular
+- [x] README en GitHub
+- [x] Repositorio Git con ramas organizadas y commits descriptivos
+- [ ] Articulo en Medium
+
