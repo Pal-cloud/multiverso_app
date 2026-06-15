@@ -1,118 +1,190 @@
-# ✒️ PixelPen — AI Content Generator
+# 🌐 MultiversoApp — Generador de Contenido con IA
 
-> Turn any idea into platform-ready content in seconds, powered by **Gemini AI** and **LangChain**.
+> Convierte cualquier idea en contenido listo para publicar en segundos, impulsado por **Groq + LangChain**.
 
-![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.35-red?logo=streamlit)
-![LangChain](https://img.shields.io/badge/LangChain-0.2-green)
-![Gemini](https://img.shields.io/badge/Gemini-1.5_Flash-orange?logo=google)
+![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.110-green?logo=fastapi)
+![React](https://img.shields.io/badge/React-18-61dafb?logo=react)
+![LangChain](https://img.shields.io/badge/LangChain-0.3-green)
+![Groq](https://img.shields.io/badge/Groq-Llama_3.3_70B-orange)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.42-red?logo=streamlit)
 
----
+## 🚀 Demos en vivo
 
-## 🧠 What is PixelPen?
-
-PixelPen is a proof-of-concept content generation system built for **Digital Content**. Given a topic and a target audience, it automatically generates publication-ready content tailored to the style and format of four major platforms:
-
-| Platform | Output style |
-|---|---|
-| 📝 Blog | Full post with title, sections and conclusion |
-| 🐦 Twitter/X | Thread of 5 tweets (≤ 280 chars each) |
-| 📸 Instagram | Caption with hook, body, CTA and hashtags |
-| 💼 LinkedIn | Professional post with opening hook and engagement question |
+| Versión | Tecnología | Enlace |
+|---------|-----------|--------|
+| **v1 — Streamlit** | Python + Streamlit | [multiversoapp-pgs.streamlit.app](https://multiversoapp-pgs.streamlit.app/) |
+| **v2 — React + FastAPI** | React + MUI + FastAPI + Groq | [multiverso-q1czvt74o-pals-projects-afd1b7ce.vercel.app](https://multiverso-q1czvt74o-pals-projects-afd1b7ce.vercel.app/) |
 
 ---
 
-## 🗂️ Project Structure
+## 🧠 ¿Qué es MultiversoApp?
+
+MultiversoApp es un generador de contenido con IA que, dado un tema y una audiencia objetivo, produce texto listo para publicar adaptado al estilo y formato de cuatro plataformas:
+
+| Plataforma | Formato de salida |
+|-----------|------------------|
+| 📝 Blog | Post completo con título, secciones y conclusión |
+| 🐦 Twitter/X | Hilo de 5 tweets (≤ 280 caracteres cada uno) |
+| 📸 Instagram | Caption con gancho, cuerpo, CTA y hashtags |
+| 💼 LinkedIn | Post profesional con apertura impactante y pregunta final |
+
+---
+
+## 🗂️ Ramas del proyecto
+
+Este repositorio documenta una **migración progresiva** de una app Streamlit a una arquitectura moderna con React + FastAPI:
+
+| Rama | Descripción |
+|------|-------------|
+| `feature/streamlit` | v1 — App completa en Streamlit + Groq. Desplegada en Streamlit Cloud |
+| `feature/react` | v2 — Frontend React + MUI + SweetAlert2 con backend FastAPI serverless. Desplegada en Vercel |
+| `main` | Documentación general y punto de entrada del proyecto |
+
+---
+
+## 🏗️ Cómo lo conseguimos — El proceso de migración
+
+### v1: Streamlit + Gemini → Streamlit + Groq
+El punto de partida fue una app Streamlit que usaba **Gemini 1.5 Flash** como LLM. El primer paso fue **migrar el proveedor LLM a Groq** (Llama 3.3 70B, Llama 3.1 8B, Gemma 2 9B), aprovechando la capa gratuita de Groq y su velocidad de inferencia. La lógica se refactorizó en módulos bajo `src/`:
 
 ```
-pixelpen/
-├── app.py            # Streamlit web interface
-├── generator.py      # LangChain + Gemini logic & prompt templates
-├── requirements.txt  # Python dependencies
-├── .env.example      # Environment variables template
-├── .gitignore
-└── README.md
+src/
+├── config.py                    # Modelos y configuración por plataforma
+├── prompts/content_prompt.py    # Plantilla de prompt con LangChain
+└── generators/content_generator.py  # Cadena LCEL: prompt | llm | parser
+```
+
+### v2: React + FastAPI + Vercel
+Para la segunda versión se separaron completamente frontend y backend:
+
+- **Backend**: `api/index.py` — FastAPI expuesto como función serverless en Vercel, reutilizando toda la lógica Python de `src/`
+- **Frontend**: `frontend/` — React 18 con Material UI para el diseño, SweetAlert2 para notificaciones y Axios para las llamadas a la API
+- **Despliegue**: todo en una sola plataforma (Vercel) gracias al `vercel.json` que enruta `/generar` al Python serverless y el resto al build estático de React
+
+```
+User (React UI)
+     │
+     ▼  POST /generar
+FastAPI serverless (Vercel)
+     │
+     ▼
+LangChain LCEL chain
+     │
+     ▼
+Groq API (Llama 3.3 70B)
+     │
+     ▼
+Contenido listo para publicar
 ```
 
 ---
 
-## ⚙️ Setup & Run
+## 🗂️ Estructura del proyecto
 
-### 1. Clone the repository
+```
+multiverso_app/
+├── api/
+│   └── index.py              # Backend FastAPI (serverless Vercel)
+├── frontend/
+│   ├── src/
+│   │   ├── App.js            # UI React + MUI + SweetAlert2
+│   │   └── index.js
+│   └── package.json
+├── src/
+│   ├── config.py             # Modelos Groq + config por plataforma
+│   ├── prompts/
+│   │   └── content_prompt.py # Plantilla LangChain
+│   └── generators/
+│       └── content_generator.py  # Lógica LCEL
+├── app.py                    # App Streamlit (rama feature/streamlit)
+├── vercel.json               # Config despliegue Vercel
+├── Procfile                  # Config Railway/Render (alternativa)
+├── docker-compose.yml        # Orquestación Docker (opcional)
+├── requirements.txt
+└── .env.example
+```
+
+---
+
+## ⚙️ Ejecución local
+
+### Prerrequisitos
+- Python 3.11+
+- Node.js 18+
+- API key de [Groq](https://console.groq.com) (gratuita)
+
+### 1. Clonar y configurar entorno
+
 ```bash
-git clone https://github.com/your-username/pixelpen.git
-cd pixelpen
-```
+git clone https://github.com/Pal-cloud/multiverso_app.git
+cd multiverso_app
+git checkout feature/react   # para la versión React
+# o
+git checkout feature/streamlit  # para la versión Streamlit
 
-### 2. Create a virtual environment
-```bash
 python -m venv venv
 source venv/bin/activate      # macOS/Linux
 venv\Scripts\activate         # Windows
-```
 
-### 3. Install dependencies
-```bash
 pip install -r requirements.txt
-```
-
-### 4. Configure your API key
-
-Copy `.env.example` to `.env` and add your Gemini API key:
-```bash
 cp .env.example .env
+# Edita .env y añade tu GROQ_API_KEY
 ```
-```env
-GEMINI_API_KEY=your_gemini_api_key_here
-```
-> Get a free API key at [Google AI Studio](https://aistudio.google.com/app/apikey)
 
-### 5. Run the app
+### 2a. Correr versión Streamlit
+
 ```bash
+git checkout feature/streamlit
 streamlit run app.py
+# Abre http://localhost:8501
 ```
 
-The app will open automatically at `http://localhost:8501`
+### 2b. Correr versión React + FastAPI
 
----
+```bash
+git checkout feature/react
 
-## 🔧 How it works
+# Terminal 1 — Backend
+uvicorn api.index:app --port 8000 --reload
 
-1. The user selects a **platform**, enters a **topic** and a **target audience**.
-2. `generator.py` builds a prompt using a **LangChain `PromptTemplate`**, injecting platform-specific instructions (tone, format, length).
-3. The prompt is sent to **Gemini 1.5 Flash** via `langchain-google-genai`.
-4. The generated content is displayed in the UI and can be downloaded as a `.txt` file.
-
-```
-User Input ──► PromptTemplate ──► Gemini 1.5 Flash ──► Ready-to-publish content
+# Terminal 2 — Frontend
+cd frontend && npm install && npm start
+# Abre http://localhost:3000
 ```
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Stack tecnológico
 
-| Layer | Technology |
-|---|---|
-| Language | Python 3.10+ |
-| LLM Framework | LangChain |
-| LLM Model | Google Gemini 1.5 Flash (free tier) |
-| Frontend | Streamlit |
-| Config | python-dotenv |
-
----
-
-## 📋 Delivery Checklist (Nivel Esencial)
-
-- [x] Text content generation for multiple platforms and audiences
-- [x] Prompt Engineering with platform-specific templates
-- [x] Web interface (Streamlit)
-- [x] Documented code
-- [x] README
-- [ ] Git repository with clean branches and commits
-- [ ] Medium article
+| Capa | v1 Streamlit | v2 React + FastAPI |
+|------|-------------|-------------------|
+| LLM | Groq (Llama 3.3 70B) | Groq (Llama 3.3 70B) |
+| LLM Framework | LangChain LCEL | LangChain LCEL |
+| Backend | Streamlit | FastAPI (serverless) |
+| Frontend | Streamlit | React 18 + MUI + SweetAlert2 |
+| Despliegue | Streamlit Cloud | Vercel |
+| Contenedores | — | Docker Compose (opcional) |
 
 ---
 
-## 📄 License
+## 📋 Checklist del proyecto
+
+- [x] Generación de contenido para múltiples plataformas y audiencias
+- [x] Prompt Engineering con plantillas específicas por plataforma
+- [x] Interfaz Streamlit (v1) — desplegada en Streamlit Cloud
+- [x] Migración de Gemini a Groq
+- [x] Refactorización modular en `src/`
+- [x] Backend FastAPI con endpoint `/generar`
+- [x] Frontend React con MUI y SweetAlert2 (v2)
+- [x] Despliegue en Vercel (frontend + backend serverless)
+- [x] Docker Compose para despliegue local contenedorizado
+- [x] Ramas Git organizadas (`feature/streamlit`, `feature/react`)
+- [x] README documentado
+- [x] [Artículo en Medium](https://medium.com/@palomagarcia_dev)
+
+---
+
+## 📄 Licencia
 
 MIT
