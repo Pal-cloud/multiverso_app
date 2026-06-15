@@ -1,6 +1,7 @@
 import streamlit as st
 from src.config import MODELOS_DISPONIBLES, PLATAFORMAS
 from src.generators.content_generator import generar_contenido
+# v2 - Groq
 
 # ── Configuración de página ───────────────────────────────────────────────────
 st.set_page_config(
