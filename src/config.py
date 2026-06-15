@@ -6,7 +6,7 @@ load_dotenv()
 
 # Modelos disponibles de Gemini (tier gratuito)
 MODELOS_DISPONIBLES = {
-    "Gemini 1.5 Flash": "gemini-1.5-flash-latest",
+    "Gemini 1.5 Flash": "gemini-1.5-flash",
     "Gemini 2.0 Flash": "gemini-2.0-flash",
 }
 
