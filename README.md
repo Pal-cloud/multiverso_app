@@ -176,7 +176,7 @@ Formulario -> content_generator.py -> PromptTemplate -> Groq API -> Contenido li
 |---|---|
 | `main` | Codigo estable y revisado |
 | `develop` | Integracion de nuevas funcionalidades |
-| `streamlit` | Desarrollo de la interfaz web y correccion de dependencias |
+| `feature/streamlit` | Desarrollo de la interfaz web y correccion de dependencias |
 
 ---
 
