@@ -38,7 +38,7 @@ st.markdown("""
 
 # ── Cabecera ──────────────────────────────────────────────────────────────────
 st.markdown("<h1>🌐 MultiversoApp</h1>", unsafe_allow_html=True)
-st.markdown('<p class="tagline">Genera contenido listo para publicar en cualquier plataforma — impulsado por Gemini AI</p>', unsafe_allow_html=True)
+st.markdown('<p class="tagline">Genera contenido listo para publicar en cualquier plataforma e idioma — impulsado por Groq + LangChain</p>', unsafe_allow_html=True)
 st.divider()
 
 # ── Formulario ────────────────────────────────────────────────────────────────

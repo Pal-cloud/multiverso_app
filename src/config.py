@@ -1,13 +1,14 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
-# Modelos disponibles de Gemini (tier gratuito)
+# Modelos disponibles de Groq (tier gratuito)
 MODELOS_DISPONIBLES = {
-    "Gemini 1.5 Flash": "gemini-1.5-flash",
-    "Gemini 2.0 Flash": "gemini-2.0-flash",
+    "Llama 3.3 70B": "llama-3.3-70b-versatile",
+    "Llama 3.1 8B": "llama-3.1-8b-instant",
+    "Gemma 2 9B": "gemma2-9b-it",
 }
 
 # Configuración por plataforma
@@ -35,14 +36,10 @@ PLATAFORMAS = {
 }
 
 
-def obtener_modelo(nombre_modelo: str) -> ChatGoogleGenerativeAI:
-    """Devuelve una instancia del LLM de Gemini."""
-    api_key = os.getenv("GEMINI_API_KEY")
+def obtener_modelo(nombre_modelo: str) -> ChatGroq:
+    """Devuelve una instancia del LLM de Groq."""
+    api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
-        raise ValueError("GEMINI_API_KEY no encontrada. Revisa tu archivo .env.")
+        raise ValueError("GROQ_API_KEY no encontrada. Revisa tu archivo .env.")
     modelo_real = MODELOS_DISPONIBLES[nombre_modelo]
-    return ChatGoogleGenerativeAI(
-        model=modelo_real,
-        google_api_key=api_key,
-        temperature=0.7,
-    )
+    return ChatGroq(model=modelo_real, api_key=api_key)
