@@ -191,5 +191,5 @@ Formulario -> content_generator.py -> PromptTemplate -> Groq API -> Contenido li
 - [x] Codigo documentado y arquitectura modular
 - [x] README en GitHub
 - [x] Repositorio Git con ramas organizadas y commits descriptivos
-- [x] Articulo en Medium: https://medium.com/p/2c30d555f49d/edit
+- [x] Articulo en Medium: https://medium.com/p/2c30d555f49d
 
