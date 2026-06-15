@@ -11,6 +11,8 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_API_URL || '';
+
 // ── Tema oscuro personalizado ─────────────────────────────────────────────────
 const theme = createTheme({
   palette: {
@@ -106,7 +108,7 @@ export default function App() {
     setCargando(true);
     setResultado('');
     try {
-      const { data } = await axios.post('/generar', form);
+      const { data } = await axios.post(`${API_URL}/generar`, form);
       setResultado(data.contenido);
       Swal.fire({ icon: 'success', title: '¡Contenido listo!',
         toast: true, position: 'top-end', showConfirmButton: false,
