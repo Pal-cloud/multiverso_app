@@ -58,45 +58,89 @@ multiverso_app/
 ## Instalacion y ejecucion
 
 ### 1. Clonar el repositorio
+
+Descarga el proyecto en tu máquina local:
+
 ```bash
 git clone https://github.com/Pal-cloud/multiverso_app.git
 cd multiverso_app
 ```
 
-### 2. Crear un entorno virtual con Python 3.13
+### 2. Crear el entorno virtual con Python 3.13
+
+Es obligatorio usar Python 3.13. Crea un entorno virtual aislado para que
+las dependencias no interfieran con otros proyectos:
+
 ```bash
 py -3.13 -m venv venv
 ```
 
+Esto genera una carpeta `venv/` en el directorio del proyecto con su propio
+intérprete de Python.
+
 ### 3. Activar el entorno virtual
+
+Activa el entorno antes de instalar nada ni ejecutar la app.
+Si no lo activas, Python usará los paquetes del sistema y la app fallará:
+
 ```bash
-source venv/Scripts/activate   # Windows (Git Bash)
-venv\Scripts\activate          # Windows (CMD/PowerShell)
-source venv/bin/activate       # macOS/Linux
+source venv/Scripts/activate   # Windows (Git Bash)  <-- recomendado
+venv\Scripts\activate          # Windows (CMD / PowerShell)
+source venv/bin/activate       # macOS / Linux
 ```
 
+Sabrás que está activo porque el prompt del terminal mostrará `(venv)` al inicio.
+
 ### 4. Instalar dependencias
+
+Con el entorno virtual activo, instala todas las librerías necesarias:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 5. Configurar la API key
+Esto instalará: Streamlit, LangChain, langchain-groq y python-dotenv.
+La instalación puede tardar 1-2 minutos la primera vez.
 
-Copia `.env.example` a `.env` y añade tu clave de Groq:
+### 5. Configurar la API key de Groq
+
+La app necesita una clave de Groq para acceder a los modelos LLM.
+Es gratuita y se obtiene en menos de un minuto:
+
+1. Ve a https://console.groq.com/keys
+2. Crea una cuenta o inicia sesión
+3. Pulsa "Create API Key" y copia la clave (empieza por `gsk_`)
+4. Crea el archivo `.env` en la raíz del proyecto:
+
 ```bash
 cp .env.example .env
 ```
+
+5. Abre el `.env` y sustituye el valor:
+
 ```env
 GROQ_API_KEY=gsk_tu_clave_aqui
 ```
-> Obtén una clave gratuita en [Groq Console](https://console.groq.com/keys)
+
+El archivo `.env` está en `.gitignore`: nunca se sube a GitHub.
 
 ### 6. Ejecutar la aplicacion
+
+Importante: usa siempre el ejecutable de Python del venv, no el del sistema,
+para evitar conflictos con otros proyectos Streamlit que puedan estar corriendo:
+
 ```bash
-python -m streamlit run app.py --server.port 8502
+venv/Scripts/python.exe -m streamlit run app.py --server.port 8503
 ```
 
-La app se abrira en `http://localhost:8502`
+La app se abrirá automáticamente en el navegador en:
+
+```
+http://localhost:8503
+```
+
+Si el puerto 8503 estuviese ocupado, cambia el número por cualquier otro libre
+(8504, 8505, etc.).
 
 ---
 
