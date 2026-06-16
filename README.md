@@ -181,7 +181,7 @@ cd frontend && npm install && npm start
 - [x] Docker Compose para despliegue local contenedorizado
 - [x] Ramas Git organizadas (`feature/streamlit`, `feature/react`)
 - [x] README documentado
-- [x] [Artículo en Medium](https://medium.com/@palomagarcia_dev)
+- [x] [Artículo en Medium](https://medium.com/p/2c30d555f49d/)
 
 ---
 
